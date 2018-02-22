@@ -170,35 +170,7 @@ public class WP4 {
     public void plusButtonPressed(int selection){
         System.out.println("Plus Button Pressed");
         
-        if (off.isVisible() == false) {
-        	off.setVisible(true);
-        	english.setVisible(false);
-        }
-        else if (english.isVisible() == false) {
-        	english.setVisible(true);
-        	french.setVisible(false);
-        }
-        else if(french.isVisible() == false) {
-        	french.setVisible(true);
-        	german.setVisible(false);
-        }
-        else if(german.isVisible() == false) {
-        	german.setVisible(true);
-        	italian.setVisible(false);
-        }
-        else if(italian.isVisible() == false) {
-        	italian.setVisible(true);
-        	spanish.setVisible(false);
-        }
-        else {
-        	off.setVisible(false);
-        	spanish.setVisible(true);
-        }
 
-    }
-
-    public void minusButtonPressed(){
-        System.out.println("Minus Button Pressed");
         
         if (off.isVisible() == false) {
         	off.setVisible(true);
@@ -223,6 +195,36 @@ public class WP4 {
         else {
         	english.setVisible(true);
         	off.setVisible(false);
+        }
+
+    }
+
+    public void minusButtonPressed(){
+        System.out.println("Minus Button Pressed");
+        
+        if (off.isVisible() == false) {
+        	off.setVisible(true);
+        	english.setVisible(false);
+        }
+        else if (english.isVisible() == false) {
+        	english.setVisible(true);
+        	french.setVisible(false);
+        }
+        else if(french.isVisible() == false) {
+        	french.setVisible(true);
+        	german.setVisible(false);
+        }
+        else if(german.isVisible() == false) {
+        	german.setVisible(true);
+        	italian.setVisible(false);
+        }
+        else if(italian.isVisible() == false) {
+        	italian.setVisible(true);
+        	spanish.setVisible(false);
+        }
+        else {
+        	off.setVisible(false);
+        	spanish.setVisible(true);
         }
 
         
