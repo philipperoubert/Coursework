@@ -1,10 +1,16 @@
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
 import javax.swing.*;
 import java.io.IOException;
 
 public class WP4 {
 
-    private boolean deviceState = false;;
+    final static String KEY1 = "bc5d1a3f91ab43208f162ed2d2dd799c";
+    final static String KEY2 = "e0d253267c6248ce875443df85049dd4";
+    final static String FORMAT = "riff-16khz-16bit-mono-pcm";	
+    static byte[] speech;
+    
+    private boolean deviceState = false;
     JLabel background = new JLabel();
     JButton onOffButton = new JButton();
     
@@ -37,6 +43,32 @@ public class WP4 {
             }
         });
 
+        final String token  = Speech.renewAccessToken( KEY1 );
+        
+        
+        
+        //Initialises the sounds for each option
+        speech = Speech.generateSpeech( token,  "English",   "en-US"
+                                            , "Female", "(en-GB, Susan, Apollo)", FORMAT );
+        Speech.writeData(speech, "english.wav");
+        
+        speech = Speech.generateSpeech( token,  "Français",   "Fr-FR"
+                , "Female", "(fr-FR, Julie, Apollo)", FORMAT );
+        Speech.writeData(speech, "french.wav");
+        
+        speech = Speech.generateSpeech( token,  "Deutsch",   "de-DE"
+                , "Male", "(de-DE, Stefan, Apollo)", FORMAT );
+        Speech.writeData(speech, "german.wav");
+        
+        speech = Speech.generateSpeech( token,  "Italiano",   "it-IT"
+                , "Male", "(it-IT, Cosimo, Apollo)", FORMAT );
+        Speech.writeData(speech, "italian.wav");
+        
+        speech = Speech.generateSpeech( token,  "Español",   "es-ES"
+                , "Female", "(es-ES, Laura, Apollo)", FORMAT );
+        Speech.writeData(speech, "spanish.wav");
+        
+
     }
 
     public void frame() throws IOException {
@@ -67,12 +99,11 @@ public class WP4 {
         frame.add(onOffButton);
         
         
+        //The location of the screen on the device
         int x = 87;
         int y = 224;
         
-        int selection = 1;
-        
-        //Creates the onOffButton
+        //Creates each language option on the screen
         off.setIcon(new ImageIcon(this.getClass().getResource("images/off.png")));
         off.setBounds(x, y, 185, 38);
         frame.add(off);
@@ -125,7 +156,7 @@ public class WP4 {
         //Creates the plusButton
         plusButton.setBounds(10, 60, 30, 55);
         //plusButton.setBorder(null);
-        plusButton.addActionListener(e -> plusButtonPressed(selection));
+        plusButton.addActionListener(e -> plusButtonPressed());
         plusButton.setOpaque(false);
         plusButton.setContentAreaFilled(false);
         frame.add(plusButton);
@@ -167,39 +198,11 @@ public class WP4 {
 
     }
 
-    public void plusButtonPressed(int selection){
+    public void plusButtonPressed(){
         System.out.println("Plus Button Pressed");
         
-        if (off.isVisible() == false) {
-        	off.setVisible(true);
-        	english.setVisible(false);
-        }
-        else if (english.isVisible() == false) {
-        	english.setVisible(true);
-        	french.setVisible(false);
-        }
-        else if(french.isVisible() == false) {
-        	french.setVisible(true);
-        	german.setVisible(false);
-        }
-        else if(german.isVisible() == false) {
-        	german.setVisible(true);
-        	italian.setVisible(false);
-        }
-        else if(italian.isVisible() == false) {
-        	italian.setVisible(true);
-        	spanish.setVisible(false);
-        }
-        else {
-        	off.setVisible(false);
-        	spanish.setVisible(true);
-        }
 
-    }
-
-    public void minusButtonPressed(){
-        System.out.println("Minus Button Pressed");
-        
+        //Makes the selection switch to the last one
         if (off.isVisible() == false) {
         	off.setVisible(true);
         	spanish.setVisible(false);
@@ -225,14 +228,71 @@ public class WP4 {
         	off.setVisible(false);
         }
 
+    }
+
+    public void minusButtonPressed(){
+        System.out.println("Minus Button Pressed");
+        
+        //Makes the selection switch to the next one
+        if (off.isVisible() == false) {
+        	off.setVisible(true);
+        	english.setVisible(false);
+        }
+        else if (english.isVisible() == false) {
+        	english.setVisible(true);
+        	french.setVisible(false);
+        }
+        else if(french.isVisible() == false) {
+        	french.setVisible(true);
+        	german.setVisible(false);
+        }
+        else if(german.isVisible() == false) {
+        	german.setVisible(true);
+        	italian.setVisible(false);
+        }
+        else if(italian.isVisible() == false) {
+        	italian.setVisible(true);
+        	spanish.setVisible(false);
+        }
+        else {
+        	off.setVisible(false);
+        	spanish.setVisible(true);
+        }
+
         
     }
 
     public void selectButtonPressed(){
         System.out.println("Select Button Pressed");
+        
+        
+        //When an option is selected, plays a sound 
+        if (english.isVisible() == false){
+	        AudioInputStream stm = Sound.setupStream( "english.wav" );
+	        Sound.playStream( stm, Sound.readStream( stm ) );
+        }
+        else if (french.isVisible() == false){
+	        AudioInputStream stm = Sound.setupStream( "french.wav" );
+	        Sound.playStream( stm, Sound.readStream( stm ) );
+        }
+        else if (german.isVisible() == false){
+	        AudioInputStream stm = Sound.setupStream( "german.wav" );
+	        Sound.playStream( stm, Sound.readStream( stm ) );
+        }
+        else if (italian.isVisible() == false){
+	        AudioInputStream stm = Sound.setupStream( "italian.wav" );
+	        Sound.playStream( stm, Sound.readStream( stm ) );
+        }
+        else if (spanish.isVisible() == false){
+	        AudioInputStream stm = Sound.setupStream( "spanish.wav" );
+	        Sound.playStream( stm, Sound.readStream( stm ) );
+        }
+        
+        
     }
 
     public void menuButtonPressed(){
+    	
         System.out.println("Menu Button Pressed");
     }
 }
