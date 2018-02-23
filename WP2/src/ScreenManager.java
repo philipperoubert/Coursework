@@ -8,12 +8,14 @@ public class ScreenManager extends JFrame {
     private boolean deviceState = false;
 
     JLabel background = new JLabel();
+    JLabel screen = new JLabel();
     JButton onOffButton = new JButton();
     JButton plusButton = new JButton();
     JButton minusButton = new JButton();
     JButton selectButton = new JButton();
     JButton menuButton = new JButton();
-
+    JLabel keyboardA = new JLabel();
+    char selected = 'A';
     Screen currentScreen;
 
     WhereKeyboard mp = new WhereKeyboard();
@@ -37,7 +39,10 @@ public class ScreenManager extends JFrame {
         background.setIcon(new ImageIcon(ImageIO.read(new File("images/xtrek_on_template.png"))));
         background.setBounds(0, 0, 360, 600);
         add(background);
-
+        
+        screen.setIcon(new ImageIcon(ImageIO.read(new File("images/backgroundAlphabetA.png"))));
+        screen.setBounds(86, 114, 269, 452);
+        add(screen);
 
         //Creates the onOffButton
         onOffButton.setIcon(new ImageIcon(ImageIO.read(new File("images/onoff.png"))));
@@ -112,17 +117,38 @@ public class ScreenManager extends JFrame {
     }
 
     public void plusButtonPressed() {
-        System.out.println("Plus Button Pressed");
+    	selected++;
+    	if (selected=='\\') selected = ']';
+    	if (selected==':') selected = '#';
+    	ImageIcon icon = new ImageIcon("images/backgroundAlphabet" + selected + ".png");
+    	icon.getImage().flush();
+    	screen.setIcon( icon );
+    	System.out.println("Plus Button Pressed");
         currentScreen.plus();
     }
 
     public void minusButtonPressed() {
-        System.out.println("Minus Button Pressed");
+    	if (selected==']') selected = '\\';
+    	if (selected=='#') selected = ':';
+    	selected--;
+    	ImageIcon icon = new ImageIcon("images/backgroundAlphabet" + selected + ".png");
+    	icon.getImage().flush();
+    	screen.setIcon( icon );
+    	System.out.println("Minus Button Pressed");
         currentScreen.menu();
     }
 
     public void selectButtonPressed() {
-        System.out.println("Select Button Pressed");
+    	System.out.print("Select Button Pressed on Button: ");
+    	if (selected=='[') {
+    		System.out.println("Space Bar");
+    	}else if(selected==']') {
+    		selected = 49; //ASCI for 1
+        	ImageIcon icon = new ImageIcon("images/backgroundAlphabet" + selected + ".png");
+        	icon.getImage().flush();
+        	screen.setIcon( icon );;
+    	}
+    	System.out.println(selected);
         currentScreen.select();
     }
 
