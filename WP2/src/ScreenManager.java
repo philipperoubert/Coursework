@@ -117,25 +117,31 @@ public class ScreenManager extends JFrame {
     }
 
     public void plusButtonPressed() {
-    	selected++;
-    	if (selected=='\\') selected = ']';
-    	if (selected==':') selected = '#';
-    	ImageIcon icon = new ImageIcon("images/backgroundAlphabet" + selected + ".png");
-    	icon.getImage().flush();
-    	screen.setIcon( icon );
-    	System.out.println("Plus Button Pressed");
-        currentScreen.plus();
+    	if(selected == ']' || selected == '%') {
+    	}else{
+	    	selected++;
+	    	if (selected=='\\') selected = ']';
+	    	if (selected==':') selected = '#';
+	    	ImageIcon icon = new ImageIcon("images/backgroundAlphabet" + selected + ".png");
+	    	icon.getImage().flush();
+	    	screen.setIcon( icon );
+	    	System.out.println("Plus Button Pressed");
+	        currentScreen.plus();
+    	}
     }
 
     public void minusButtonPressed() {
-    	if (selected==']') selected = '\\';
-    	if (selected=='#') selected = ':';
-    	selected--;
-    	ImageIcon icon = new ImageIcon("images/backgroundAlphabet" + selected + ".png");
-    	icon.getImage().flush();
-    	screen.setIcon( icon );
-    	System.out.println("Minus Button Pressed");
-        currentScreen.menu();
+    	if(selected == 'A' || selected == '1') {
+    	}else{
+	    	if (selected==']') selected = '\\';
+	    	if (selected=='#') selected = ':';
+	    	selected--;
+	    	ImageIcon icon = new ImageIcon("images/backgroundAlphabet" + selected + ".png");
+	    	icon.getImage().flush();
+	    	screen.setIcon( icon );
+	    	System.out.println("Minus Button Pressed");
+	        currentScreen.menu();
+    	}
     }
 
     public void selectButtonPressed() {
