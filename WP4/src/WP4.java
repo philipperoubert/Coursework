@@ -1,8 +1,14 @@
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
 import javax.swing.*;
 import java.io.IOException;
 
 public class WP4 {
+
+    final static String KEY1 = "bc5d1a3f91ab43208f162ed2d2dd799c";
+    final static String KEY2 = "e0d253267c6248ce875443df85049dd4";
+    final static String FORMAT = "riff-16khz-16bit-mono-pcm";	
+    private final static String FILENAME = "output.wav";
 
     private boolean deviceState = false;;
     JLabel background = new JLabel();
@@ -36,6 +42,30 @@ public class WP4 {
                 System.out.println(ex);
             }
         });
+
+        final String token  = Speech.renewAccessToken( KEY1 );
+        
+        byte[] speech = Speech.generateSpeech( token,  "English",   "en-US"
+                                            , "Female", "(en-GB, Susan, Apollo)", FORMAT );
+        Speech.writeData(speech, "english.wav");
+        
+        speech = Speech.generateSpeech( token,  "Français",   "Fr-FR"
+                , "Female", "(fr-FR, Julie, Apollo)", FORMAT );
+        Speech.writeData(speech, "french.wav");
+        
+        speech = Speech.generateSpeech( token,  "Deutsch",   "de-DE"
+                , "Male", "(de-DE, Stefan, Apollo)", FORMAT );
+        Speech.writeData(speech, "german.wav");
+        
+        
+        speech = Speech.generateSpeech( token,  "Italiano",   "it-IT"
+                , "Male", "(it-IT, Cosimo, Apollo)", FORMAT );
+        Speech.writeData(speech, "italian.wav");
+        
+        speech = Speech.generateSpeech( token,  "Español",   "es-ES"
+                , "Female", "(es-ES, Laura, Apollo)", FORMAT );
+        Speech.writeData(speech, "spanish.wav");
+        
 
     }
 
@@ -232,9 +262,35 @@ public class WP4 {
 
     public void selectButtonPressed(){
         System.out.println("Select Button Pressed");
+        
+        
+
+        if (english.isVisible() == false){
+	        AudioInputStream stm = Sound.setupStream( "english.wav" );
+	        Sound.playStream( stm, Sound.readStream( stm ) );
+        }
+        else if (french.isVisible() == false){
+	        AudioInputStream stm = Sound.setupStream( "french.wav" );
+	        Sound.playStream( stm, Sound.readStream( stm ) );
+        }
+        else if (german.isVisible() == false){
+	        AudioInputStream stm = Sound.setupStream( "german.wav" );
+	        Sound.playStream( stm, Sound.readStream( stm ) );
+        }
+        else if (italian.isVisible() == false){
+	        AudioInputStream stm = Sound.setupStream( "italian.wav" );
+	        Sound.playStream( stm, Sound.readStream( stm ) );
+        }
+        else if (spanish.isVisible() == false){
+	        AudioInputStream stm = Sound.setupStream( "spanish.wav" );
+	        Sound.playStream( stm, Sound.readStream( stm ) );
+        }
+        
+        
     }
 
     public void menuButtonPressed(){
+    	
         System.out.println("Menu Button Pressed");
     }
 }
