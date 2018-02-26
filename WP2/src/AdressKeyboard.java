@@ -108,7 +108,7 @@ public class AdressKeyboard extends JFrame {
 
   public AdressKeyboard() {
     setTitle( "AdressKeyboard" );
-    displayImage = new ImageIcon( "sprites/backgroundAlphabet.png" );
+    displayImage = new ImageIcon( "images/backgroundAlphabet.png" );
     setContentPane( new JLabel( displayImage ) );
     setLayout( null );
     
@@ -141,7 +141,7 @@ public class AdressKeyboard extends JFrame {
   public static void main( String[] argv ) {
     JFrame frame = new AdressKeyboard();
     frame.setLocationRelativeTo( null );
-    frame.setSize( 530, 820 );
+    frame.setSize( 185, 228 );
     frame.setResizable( false );
     frame.setVisible( true );
   }
