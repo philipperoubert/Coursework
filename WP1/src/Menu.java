@@ -1,29 +1,24 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.Console;
 import java.io.IOException;
 
 public class Menu {
 
-    private boolean deviceState = false;;
-    JLabel background = new JLabel();
-    JButton onOffButton = new JButton();
-    JButton plusButton = new JButton();
-    JButton minusButton = new JButton();
-    JButton selectButton = new JButton();
-    JButton menuButton = new JButton();
+    private boolean deviceState = false;
+    private String selectedItem;
+    private JLabel background = new JLabel();
+    private JButton onOffButton = new JButton();
+    private JButton plusButton = new JButton();
+    private JButton minusButton = new JButton();
+    private JButton selectButton = new JButton();
+    private JButton menuButton = new JButton();
 
-    JLabel whereTo = new JLabel();
-    JLabel tripComputer = new JLabel();
-    JLabel map = new JLabel();
-    JLabel speech = new JLabel();
-    JLabel satellite = new JLabel();
-    JLabel about = new JLabel();
+    private JLabel whereTo = new JLabel();
+    private JLabel tripComputer = new JLabel();
+    private JLabel map = new JLabel();
+    private JLabel speech = new JLabel();
+    private JLabel satellite = new JLabel();
+    private JLabel about = new JLabel();
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -31,20 +26,20 @@ public class Menu {
                 new Menu().frame();
             } catch (Exception ex)
             {
-                System.out.println(ex);
+                ex.printStackTrace();
             }
         });
 
     }
 
-    public void frame() throws IOException {
+    private void frame() throws IOException {
         JFrame frame = new JFrame("Menu");
         frame.setSize(370, 635);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-        background.setName("background");
+
         background.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\xtrek_off.png"))));
         background.setBounds(0, 0, 360, 600);
         frame.add(background);
@@ -61,14 +56,23 @@ public class Menu {
 
             } catch (Exception ex)
             {
-                System.out.println(ex);}
+                ex.printStackTrace();
+            }
         });
         frame.add(onOffButton);
 
         //Creates the plusButton
         plusButton.setBounds(10, 60, 30, 55);
         //plusButton.setBorder(null);
-        plusButton.addActionListener(e -> plusButtonPressed());
+        plusButton.addActionListener(e -> {
+            try {
+                plusButtonPressed();
+
+            } catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        });
         plusButton.setOpaque(false);
         plusButton.setContentAreaFilled(false);
         frame.add(plusButton);
@@ -76,7 +80,15 @@ public class Menu {
         //Creates the minusButton
         minusButton.setBounds(10, 115, 30, 55);
         //minusButton.setBorder(null);
-        minusButton.addActionListener(e -> minusButtonPressed());
+        minusButton.addActionListener(e -> {
+            try {
+                minusButtonPressed();
+
+            } catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        });
         minusButton.setOpaque(false);
         minusButton.setContentAreaFilled(false);
         frame.add(minusButton);
@@ -102,6 +114,7 @@ public class Menu {
         whereTo.setIcon(new ImageIcon(this.getClass().getResource("\\images\\whereTo_selected.png")));
         whereTo.setBounds(87, 224, 90, 72);
         frame.add(whereTo);
+        selectedItem = "whereTo";
 
         //Creates the tripComputer image
         tripComputer.setIcon(new ImageIcon(this.getClass().getResource("\\images\\tripComputer.png")));
@@ -136,17 +149,16 @@ public class Menu {
         frame.setVisible(true);
     }
 
-    public void onOffPressed() throws IOException{
+    private void onOffPressed() throws IOException{
         System.out.println("On Off Pressed");
 
         //Device is turned off (Turn device on)
-        if (deviceState == false) {
+        if (!deviceState) {
             deviceState = true;
             background.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\xtrek_on.png"))));
             plusButton.setEnabled(true);
             minusButton.setEnabled(true);
             selectButton.setEnabled(true);
-            menuButton.setEnabled(true);
         }
         //Device is on (Turn device off)
         else {
@@ -155,24 +167,132 @@ public class Menu {
             plusButton.setEnabled(false);
             minusButton.setEnabled(false);
             selectButton.setEnabled(false);
-            menuButton.setEnabled(false);
         }
 
     }
 
-    public void plusButtonPressed(){
+    private void plusButtonPressed() throws IOException{
         System.out.println("Plus Button Pressed");
+        switch (selectedItem) {
+            case "whereTo":
+            {
+                whereTo.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\whereTo.png"))));
+                tripComputer.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\tripComputer_selected.png"))));
+                selectedItem = "tripComputer";
+                break;
+            }
+            case "tripComputer":
+            {
+                tripComputer.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\tripComputer.png"))));
+                map.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\map_selected.png"))));
+                selectedItem = "map";
+                break;
+            }
+            case "map":
+            {
+                map.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\map.png"))));
+                speech.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\speech_selected.png"))));
+                selectedItem = "speech";
+                break;
+            }
+            case "speech":
+            {
+                speech.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\speech.png"))));
+                satellite.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\satellite_selected.png"))));
+                selectedItem = "satellite";
+                break;
+            }
+            case "satellite":
+            {
+                satellite.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\satellite.png"))));
+                about.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\about_selected.png"))));
+                selectedItem = "about";
+                break;
+            }
+            case "about":
+            {
+                about.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\about.png"))));
+                whereTo.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\whereTo_selected.png"))));
+                selectedItem = "whereTo";
+                break;
+            }
+        }
     }
 
-    public void minusButtonPressed(){
+    private void minusButtonPressed() throws IOException{
         System.out.println("Minus Button Pressed");
+
+        switch (selectedItem) {
+            case "about": {
+                about.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\about.png"))));
+                satellite.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\satellite_selected.png"))));
+                selectedItem = "satellite";
+                break;
+            }
+            case "satellite": {
+                satellite.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\satellite.png"))));
+                speech.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\speech_selected.png"))));
+                selectedItem = "speech";
+                break;
+            }
+            case "speech": {
+                speech.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\speech.png"))));
+                map.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\map_selected.png"))));
+                selectedItem = "map";
+                break;
+            }
+            case "map": {
+                map.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\map.png"))));
+                tripComputer.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\tripComputer_selected.png"))));
+                selectedItem = "tripComputer";
+                break;
+            }
+            case "tripComputer": {
+                tripComputer.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\tripComputer.png"))));
+                whereTo.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\whereTo_selected.png"))));
+                selectedItem = "whereTo";
+                break;
+            }
+            case "whereTo": {
+                whereTo.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\whereTo.png"))));
+                about.setIcon(new ImageIcon(ImageIO.read(this.getClass().getResource("\\images\\about_selected.png"))));
+                selectedItem = "about";
+                break;
+            }
+
+        }
     }
 
-    public void selectButtonPressed(){
-        System.out.println("Select Button Pressed");
+    private void selectButtonPressed(){
+        switch (selectedItem) {
+            case "whereTo": {
+                System.out.println("Where To clicked");
+                break;
+            }
+            case "tripComputer": {
+                System.out.println("Trip Computer clicked");
+                break;
+            }
+            case "map": {
+                System.out.println("Map clicked");
+                break;
+            }
+            case "speech": {
+                System.out.println("Speech clicked");
+                break;
+            }
+            case "satellite": {
+                System.out.println("Satellite clicked");
+                break;
+            }
+            case "about": {
+                System.out.println("About clicked");
+                break;
+            }
+        }
     }
 
-    public void menuButtonPressed(){
+    private void menuButtonPressed(){
         System.out.println("Menu Button Pressed");
     }
 }

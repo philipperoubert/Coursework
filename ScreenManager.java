@@ -5,18 +5,18 @@ import java.io.IOException;
 
 public class ScreenManager extends JFrame {
 
-    private boolean deviceState = false;
+    public JLabel background = new JLabel();
+    public JButton onOffButton = new JButton();
+    public JButton plusButton = new JButton();
+    public JButton minusButton = new JButton();
+    public JButton selectButton = new JButton();
+    public JButton menuButton = new JButton();
 
-    JLabel background = new JLabel();
-    JButton onOffButton = new JButton();
-    JButton plusButton = new JButton();
-    JButton minusButton = new JButton();
-    JButton selectButton = new JButton();
-    JButton menuButton = new JButton();
+    private Screen currentScreen;
 
-    Screen currentScreen;
-
-    MapPanel mp = new MapPanel();
+    public MapPanel mp = new MapPanel(this);
+    public TempOff to = new TempOff(this);
+    public TempMenu tm = new TempMenu(this);
 
     public static void main(String[] args) {
         try {
@@ -24,7 +24,6 @@ public class ScreenManager extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void frame() throws IOException {
@@ -83,51 +82,74 @@ public class ScreenManager extends JFrame {
         menuButton.setOpaque(false);
         menuButton.setContentAreaFilled(false);
         add(menuButton);
+        mp.setBounds(100, 100, this.getWidth() - 200, this.getHeight() - 200);
 
-        changeCurrentScreen(mp);
-
+        changeCurrentScreen(to);
         setVisible(true);
-        SwingUtilities.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                repaint();
-            }
-        });
     }
 
 
     public void changeCurrentScreen(Screen next) {
-        if (currentScreen != null)
+        if (currentScreen != null) {
             remove(currentScreen);
+        }
         add(next);
         next.setVisible(true);
+        next.showScreen();
+        validate();
         currentScreen = next;
     }
 
 
     public void onOffPressed() {
         System.out.println("On Off Pressed");
-        changeCurrentScreen(mp);
+        currentScreen.onOff();
+        repaint();
     }
 
     public void plusButtonPressed() {
         System.out.println("Plus Button Pressed");
         currentScreen.plus();
+        repaint();
     }
 
     public void minusButtonPressed() {
         System.out.println("Minus Button Pressed");
-        currentScreen.menu();
+        currentScreen.minus();
+        repaint();
     }
 
     public void selectButtonPressed() {
         System.out.println("Select Button Pressed");
         currentScreen.select();
+        repaint();
     }
 
     public void menuButtonPressed() {
         System.out.println("Menu Button Pressed");
         currentScreen.menu();
+        repaint();
+    }
+}
+
+abstract class Screen extends JPanel {
+    protected ScreenManager sm;
+
+    public Screen(ScreenManager sm) {
+        this.sm = sm;
+    }
+
+    abstract void showScreen();
+
+    abstract void plus();
+
+    abstract void minus();
+
+    abstract void menu();
+
+    abstract void select();
+
+    void onOff() {
+        sm.changeCurrentScreen(sm.to);
     }
 }
