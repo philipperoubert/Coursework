@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class MenuScreen extends Screen {
+class MenuScreen extends Screen {
     private JLabel whereTo = new JLabel();
     private JLabel tripComputer = new JLabel();
     private JLabel map = new JLabel();
@@ -13,7 +13,7 @@ public class MenuScreen extends Screen {
 
     private String selectedItem;
 
-    public MenuScreen(ScreenManager sm) {
+    MenuScreen(ScreenManager sm) {
         super(sm);
         setLayout(null);
         setBackground(Color.BLACK);

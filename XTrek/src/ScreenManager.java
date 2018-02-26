@@ -3,18 +3,18 @@ import java.io.IOException;
 
 public class ScreenManager extends JFrame {
 
-    public JLabel background = new JLabel();
-    public JButton onOffButton = new JButton();
-    public JButton plusButton = new JButton();
-    public JButton minusButton = new JButton();
-    public JButton selectButton = new JButton();
-    public JButton menuButton = new JButton();
+    private JLabel background = new JLabel();
+    private JButton onOffButton = new JButton();
+    private JButton plusButton = new JButton();
+    private JButton minusButton = new JButton();
+    private JButton selectButton = new JButton();
+    private JButton menuButton = new JButton();
 
     private Screen currentScreen;
 
-    public OffScreen off = new OffScreen(this);
-    public MenuScreen menu = new MenuScreen(this);
-    public MapScreen map = new MapScreen(this);
+    OffScreen off = new OffScreen(this);
+    MenuScreen menu = new MenuScreen(this);
+    MapScreen map = new MapScreen(this);
 
     public static void main(String[] args) {
         try {
@@ -24,7 +24,7 @@ public class ScreenManager extends JFrame {
         }
     }
 
-    public void frame() throws IOException {
+    private void frame() throws IOException {
         setSize(366, 635);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,16 +37,17 @@ public class ScreenManager extends JFrame {
 
 
         //Creates the onOffButton
-        onOffButton.setIcon(new ImageIcon(this.getClass().getResource("images/onoff.png")));
         onOffButton.setBounds(234, 106, 45, 45);
         //onOffButton.setBorder(null);
         onOffButton.addActionListener(e -> {
             try {
                 onOffPressed();
             } catch (Exception ex) {
-                System.out.println(ex);
+                ex.printStackTrace();
             }
         });
+        plusButton.setOpaque(false);
+        plusButton.setContentAreaFilled(false);
         add(onOffButton);
 
         //Creates the plusButton
@@ -87,7 +88,7 @@ public class ScreenManager extends JFrame {
     }
 
 
-    public void changeCurrentScreen(Screen next) {
+    void changeCurrentScreen(Screen next) {
         if (currentScreen != null) {
             remove(currentScreen);
         }
@@ -99,31 +100,31 @@ public class ScreenManager extends JFrame {
     }
 
 
-    public void onOffPressed() {
+    private void onOffPressed() {
         //System.out.println("On Off Pressed");
         currentScreen.onOff();
         repaint();
     }
 
-    public void plusButtonPressed() {
+    private void plusButtonPressed() {
         //System.out.println("Plus Button Pressed");
         currentScreen.plus();
         repaint();
     }
 
-    public void minusButtonPressed() {
+    private void minusButtonPressed() {
         //System.out.println("Minus Button Pressed");
         currentScreen.minus();
         repaint();
     }
 
-    public void selectButtonPressed() {
+    private void selectButtonPressed() {
         //System.out.println("Select Button Pressed");
         currentScreen.select();
         repaint();
     }
 
-    public void menuButtonPressed() {
+    private void menuButtonPressed() {
         //System.out.println("Menu Button Pressed");
         currentScreen.menu();
         repaint();
@@ -131,9 +132,9 @@ public class ScreenManager extends JFrame {
 }
 
 abstract class Screen extends JPanel {
-    protected ScreenManager sm;
+    ScreenManager sm;
 
-    public Screen(ScreenManager sm) {
+    Screen(ScreenManager sm) {
         this.sm = sm;
     }
 
